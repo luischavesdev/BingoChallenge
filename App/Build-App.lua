@@ -10,14 +10,12 @@ project "App"
    includedirs
    {
       "Source",
-
-	  -- Include Core
-	  "../Core/Source"
+	  --"../Bingo/Source"
    }
 
    links
    {
-      "Core"
+      "Bingo"
    }
 
    targetdir ("../Binaries/" .. OutputDir .. "/%{prj.name}")
@@ -34,12 +32,6 @@ project "App"
 
    filter "configurations:Release"
        defines { "RELEASE" }
-       runtime "Release"
-       optimize "On"
-       symbols "On"
-
-   filter "configurations:Dist"
-       defines { "DIST" }
        runtime "Release"
        optimize "On"
        symbols "Off"

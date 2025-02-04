@@ -1,5 +1,5 @@
-project "Core"
-   kind "StaticLib"
+project "Bingo"
+   kind "SharedLib"
    language "C++"
    cppdialect "C++17"
    targetdir "Binaries/%{cfg.buildcfg}"
@@ -26,12 +26,6 @@ project "Core"
 
    filter "configurations:Release"
        defines { "RELEASE" }
-       runtime "Release"
-       optimize "On"
-       symbols "On"
-
-   filter "configurations:Dist"
-       defines { "DIST" }
        runtime "Release"
        optimize "On"
        symbols "Off"
