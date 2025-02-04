@@ -65,7 +65,7 @@ public:
 	void CheckHit(const int& ball, const bool& render = false)
 	{
 		std::cout << "Ball: " << ball << '\n';
-		auto& hit = std::find(cells.begin(), cells.end(), ball);
+		auto hit = std::find(cells.begin(), cells.end(), ball);
 		// If the ball value was not found, find returns the end iterator.
 		if (hit != cells.end())
 		{
@@ -107,8 +107,8 @@ public:
 		}
 	}
 
-	template<int N>
-	void CheckHits(const std::array<int, N>& balls)
+	//template<int N>
+	void CheckHits(const std::array<int, 30>& balls)
 	{
 		for (const int& ball : balls)
 		{
@@ -172,6 +172,9 @@ public:
 
 
 int main() {
+
+
+
 	Initialization();
 	bool endGame = false;
 	char input = '\0';
