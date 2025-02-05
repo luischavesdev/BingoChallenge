@@ -24,6 +24,17 @@ project "App"
    filter "system:windows"
        systemversion "latest"
        defines { "WINDOWS" }
+       postbuildcommands
+       {
+           "{COPY} ../Binaries/" .. OutputDir .. "/Bingo/*.dll ../Binaries/" .. OutputDir .. "/App"
+       }
+
+    filter "system:linux"
+       postbuildcommands
+       {
+           "{COPY} ../Binaries/" .. OutputDir .. "/Bingo/*.so ../Binaries/" .. OutputDir .. "/App"
+       }
+
 
    filter "configurations:Debug"
        defines { "DEBUG" }
