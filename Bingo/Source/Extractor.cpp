@@ -25,7 +25,7 @@ void Extractor::Reset()
 
 int Extractor::RevealNextBall()
 {
-	if (visibleCounter < drawAmmount - 1)
+	if (visibleCounter <= drawAmmount - 1)
 	{
 		visibleBalls[visibleCounter] = balls[visibleCounter];
 		return visibleBalls[visibleCounter++];

@@ -20,8 +20,6 @@ public:
 	void RevealAllBalls();
 
 	inline std::array<int, drawAmmount> GetVisibleBalls() { return visibleBalls; };
-
 	inline int GetDrawAmmount() { return drawAmmount; };
-
-	inline bool IsClear() { return visibleCounter == drawAmmount - 1; };
+	inline bool IsClear() { return visibleCounter >= drawAmmount; };
 };

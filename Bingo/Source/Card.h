@@ -15,22 +15,6 @@ private:
 	int patternsCompleted;
 	int hitCounter;
 
-
-	/*void RenderCard()
-	{
-		for (int i = 0; i < rows; ++i)
-		{
-			for (int j = 0; j < columns; ++j)
-			{
-				std::cout << std::setw(3) << cells[j + i * columns];
-			}
-
-			std::cout << '\n';
-		}
-
-		std::cout << '\n';
-	}*/
-
 	void PopulateCells();
 
 public:

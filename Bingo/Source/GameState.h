@@ -34,7 +34,7 @@ public:
 
 	void RandomizePool();
 
-	void Play();
+	bool Play();
 
 	void AddCredits(const int& value);
 

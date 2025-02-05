@@ -1,7 +1,4 @@
-﻿//#include <iostream>
-//#include <dlfcn.h>
-
-#include "Bingo.h"
+﻿#include "Bingo.h"
 #include "GameState.h"
 #include "Card.h"
 #include "Extractor.h"
@@ -9,51 +6,15 @@
 Card crd;
 Extractor extrct;
 
-int* ExportInfo()
+void ResetObjects()
 {
-	// Protocol ended up being a bit messy. Assumed that something if this sort was intended
-	int* message = new int[51];
-	int counter = 0;
-
-	auto cells = crd.GetCells();
-	for (const int& cell : cells)
-	{
-		message[counter] = cell;
-		counter++;
-	}
-
-	message[counter] = -1;
-	counter++;
-
-	auto balls = extrct.GetVisibleBalls();
-	for (const int& ball : balls)
-	{
-		message[counter] = ball;
-		counter++;
-	}
-
-	message[counter] = -1;
-	counter++;
-
-	message[counter] = GameState::Get().GetCredits();
-	counter++;
-
-	message[counter] = -1;
-	counter++;
-
-	message[counter] = GameState::Get().GetState();
-	counter++;
-
-	message[counter] = -1;
-	counter++;
-
-	
-	return message;
+	crd.Reset();
+	extrct.Reset();
 }
 
-Message MyInfo()
+ProtocolMessage ExportInfo()
 {
-	Message info;
+	ProtocolMessage info;
 	info.cells = crd.GetCells();
 	info.balls = extrct.GetVisibleBalls();
 	info.credits = GameState::Get().GetCredits();
@@ -62,23 +23,30 @@ Message MyInfo()
 	return info;
 }
 
-void SpendCredits()
+ProtocolMessage SpendCredits()
 {
 	if (GameState::Get().GetState() == State::S_Down)
 	{
-		GameState::Get().Play();
+		if (GameState::Get().Play())
+		{
+			ResetObjects();
+		}
 	}
+
+	return ExportInfo();
 }
 
-void ReshuffleCard()
+ProtocolMessage ReshuffleCard()
 {
 	if (GameState::Get().GetState() == State::S_Shuffle)
 	{
 		crd.Reset();
 	}
+
+	return ExportInfo();
 }
 
-void RevealBall()
+ProtocolMessage RevealBall()
 {
 	switch (GameState::Get().GetState())
 	{
@@ -92,9 +60,11 @@ void RevealBall()
 			GameState::Get().EndPlay();
 		}
 	}
+
+	return ExportInfo();
 }
 
-void RevealBalls()
+ProtocolMessage RevealBalls()
 {
 	switch (GameState::Get().GetState())
 	{
@@ -110,4 +80,6 @@ void RevealBalls()
 		}
 		GameState::Get().EndPlay();
 	}
+
+	return ExportInfo();
 }

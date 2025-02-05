@@ -4,7 +4,11 @@
 
 Card::Card() : hitState(0b0000000000000000), patternsCompleted(0), hitCounter(0)
 {
-	PopulateCells();
+	// PopulateCells needs to be explicitly called, otherwise cells will be at zero.
+	for (int i = 0; i < size; ++i)
+	{
+		cells[i] = 0;
+	}
 }
 
 void Card::PopulateCells()

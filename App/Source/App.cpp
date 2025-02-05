@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>
 #include <array>
 #include <dlfcn.h>
 #include "Bingo.h"
@@ -88,55 +89,66 @@
 //if (getCardPtr != nullptr)
 //std::cout << "Load the func3!\n";
 
-void Render(const Message& message)
+
+
+//dlclose(bingoEngine);
+
+
+
+
+
+void Render(const ProtocolMessage& message)
 {
+	std::cout << "\n";
+	std::cout << "Current play state. Card:\n";
 
 	auto& cells = message.cells;
+	for (int i = 0; i < 3; ++i)
+	{
+		for (int j = 0; j < 5; ++j)
+		{
+			std::cout << std::setw(3) << cells[j + i * 5];
+		}
+
+		std::cout << '\n';
+	}
+
+	std::cout << "\n";
+	std::cout << "Balls:\n";
+
 	auto& balls = message.balls;
+	for (int i = 0; i < 5; ++i)
+	{
+		for (int j = 0; j < 6; ++j)
+		{
+			std::cout << std::setw(3) << balls[j + i * 6];
+		}
 
-	for (const int& cell : cells)
-		std::cout << cell << "\n";
-
-	std::cout << "\n";
-
-	for (const int& ball : balls)
-		std::cout << ball << "\n";
-
-	std::cout << "\n";
-
-	std::cout << message.credits << "\n";
+		std::cout << '\n';
+	}
 
 	std::cout << "\n";
-
-	std::cout << message.state << "\n";
-
-	std::cout << "\n";
+	std::cout << "Credits: " << message.credits << "\n";
 	std::cout << "\n";
 
 
-	//int counter = 0;
-	//int index = 0;
+	switch (message.state)
+	{
+	case 0:
+		std::cout << "Play (1)    " << "Exit (5)\n";
+		break;
+	case 1:
+		std::cout << "New card (2)    " << "Reveal ball (3)    " << "Reveal all balls (4)    " << "Exit (5)\n";
+		break;
+	case 2:
+		std::cout << "Reveal ball (3)    " << "Reveal all balls (4)    " << "Exit (5)\n";
+		break;
+	default:
+		std::cout << "Error state!\n";
+	}
 
-	//int* mess = message;
-
-
-	//while (counter < 2)
-	//{
-	//	std::cout << *(message + index) << "\n";
-
-	//	if (*(message + index) == -1)
-	//	{
-	//		counter++;
-	//	}
-
-	//	index++;
-	//}
-
-
-
+	std::cout << "\n";
 }
-
-
 
 int main() {
 	char input = '\0';
@@ -148,8 +160,7 @@ int main() {
 
 	if (input == 'y')
 	{
-
-		Render(MyInfo());
+		Render(ExportInfo());
 
 		do
 		{
@@ -158,88 +169,27 @@ int main() {
 			switch (option)
 			{
 			case 1:
-				SpendCredits();
-				Render(MyInfo());
+				Render(SpendCredits());
 				break;
 			case 2:
-				ReshuffleCard();
-				Render(MyInfo());
+				Render(ReshuffleCard());
 				break;
 			case 3:
-				RevealBall();
-				Render(MyInfo());
+				Render(RevealBall());
 				break;
 			case 4:
-				RevealBalls();
-				Render(MyInfo());
+				Render(RevealBalls());
 				break;
 			case 5:
 				isRunning = false;
 				break;
 			default:
-				std::cout << option << " NotValid input.\n";
+				std::cout << "Not valid input.\n";
 			}
 
 		} while (isRunning);
 	}
 
 	std::cout << "See ya!\n";
-	std::cin >> input;
-
-
-
-
-	//int addedCredits = 0;
-	//std::cout << "Add credits? (number)\n";
-	//std::cin >> addedCredits;
-	//startCreditsPtr(addedCredits);
-
-	//std::cout << "Generate card? (y)\n";
-	//std::cin >> input;
-	//if (input == 'y')
-	//{
-	//	newCardPtr();
-
-	//	std::cout << "Check card? (y)\n";
-	//	std::cin >> input;
-
-	//	if (input == 'y')
-	//	{
-	//		std::array<int, 15> myArray;
-	//		myArray = getCardPtr();
-
-	//		for (int element : myArray) {
-	//			std::cout << "CardElement: " << element << "\n";
-	//		}
-
-	//		int hitNum = 0;
-	//		std::cout << "Hit number? (num)\n";
-	//		std::cin >> hitNum;
-	//		checkNumberPtr(hitNum);
-
-	//		std::cout << "Check card? (y)\n";
-	//		std::cin >> input;
-	//		if (input == 'y')
-	//		{
-	//			std::array<int, 15> myArray2;
-	//			myArray2 = getCardPtr();
-
-	//			for (int element : myArray2) {
-	//				std::cout << "CardElement: " << element << "\n";
-	//			}
-
-	//		}
-
-
-	//	}
-
-	//}
-
-
-	//std::cout << "Play again? (y/n)\n";
-	//std::cin >> input;
-
-
-
-	//dlclose(bingoEngine);
+	std::cin >> input;	
 }

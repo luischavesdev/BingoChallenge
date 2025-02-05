@@ -20,13 +20,15 @@ GameState& GameState::Get()
 	return instance;
 }
 
-void GameState::Play()
+bool GameState::Play()
 {
 	if (currentState == State::S_Down && credits >= playCost)
 	{
 		currentState = State::S_Shuffle;
 		AddCredits(-playCost);
+		return true;
 	}
+	return false;
 }
 
 void GameState::RandomizePool()
