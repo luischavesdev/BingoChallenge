@@ -10,7 +10,7 @@ project "App"
    includedirs
    {
       "Source",
-	  --"../Bingo/Source"
+	  "../Bingo/Source"
    }
 
    links

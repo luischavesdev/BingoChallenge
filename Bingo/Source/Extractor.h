@@ -1,5 +1,4 @@
 #pragma once
-
 #include <array>
 
 class Extractor
@@ -10,6 +9,12 @@ private:
 	std::array<int, drawAmmount> visibleBalls;
 	int visibleCounter;
 
+	static const int extraAmmount = 3;
+	static const int extraCost = 1;
+	std::array<int, extraAmmount> extraBalls;
+	std::array<int, extraAmmount> visibleExtras;
+	int extraCounter;
+
 public:
 	Extractor();
 
@@ -19,7 +24,11 @@ public:
 
 	void RevealAllBalls();
 
+	int GetExtra();
+
 	inline std::array<int, drawAmmount> GetVisibleBalls() { return visibleBalls; };
+	inline std::array<int, extraAmmount> GetVisibleExtras() { return visibleExtras; };
 	inline int GetDrawAmmount() { return drawAmmount; };
 	inline bool IsClear() { return visibleCounter >= drawAmmount; };
+	inline bool IsExtraless() { return extraCounter >= extraAmmount; };
 };

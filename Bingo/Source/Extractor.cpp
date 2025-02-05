@@ -1,7 +1,7 @@
 #include "Extractor.h"
 #include "GameState.h"
 
-Extractor::Extractor() : visibleCounter(0)
+Extractor::Extractor() : visibleCounter(0), extraCounter(0)
 {
 	Reset();
 }
@@ -12,15 +12,23 @@ void Extractor::Reset()
 	GameState::Get().RandomizePool();
 	auto poolCopy = GameState::Get().GetPool();
 	for (int i = 0; i < drawAmmount; ++i)
-	{
 		balls[i] = poolCopy[i];
-	}
 
 	// Reset visible balls.
-	for (int i = 0; i < drawAmmount; ++i) {
+	for (int i = 0; i < drawAmmount; ++i)
 		visibleBalls[i] = 0;
-	}
+
 	visibleCounter = 0;
+
+
+	// Deal with extra balls.
+	for (int i = 0; i < extraAmmount; ++i)
+		extraBalls[i] = poolCopy[drawAmmount + i];
+		
+	for (int i = 0; i < extraAmmount; ++i)
+		visibleExtras[i] = 0;
+
+	extraCounter = 0;
 }
 
 int Extractor::RevealNextBall()
@@ -41,4 +49,16 @@ void Extractor::RevealAllBalls()
 		visibleBalls[i] = balls[i];
 	}
 	visibleCounter = drawAmmount - 1;
+}
+
+int Extractor::GetExtra()
+{
+	if (GameState::Get().GetCredits() > 0 && extraCounter <= extraAmmount - 1)
+	{
+		GameState::Get().AddCredits(-extraCost);
+		visibleExtras[extraCounter] = extraBalls[extraCounter];
+		return visibleExtras[extraCounter++];
+	}
+
+	return -1;
 }

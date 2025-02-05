@@ -95,53 +95,72 @@
 
 
 
-
+char* prompt1 = "Spend credit (1)    ";
+char* prompt2 = "New card (2)    ";
+char* prompt3 = "Reveal ball (3)    ";
+char* prompt4 = "Reveal all balls (4)    ";
+char* prompt5 = "Cancel (5)    ";
+char* prompt6 = "Exit (6)    ";
 
 void Render(const ProtocolMessage& message)
 {
-	std::cout << "\n";
-	std::cout << "Current play state. Card:\n";
+	// Starter message
+	if (message.state == 0)
+		std::cout << "\nInsert credit!\n";
+	else
+		std::cout << "\nCurrent play state.\n";
 
+	// Card
+	std::cout << "Card:\n";
 	auto& cells = message.cells;
 	for (int i = 0; i < 3; ++i)
 	{
 		for (int j = 0; j < 5; ++j)
-		{
 			std::cout << std::setw(3) << cells[j + i * 5];
-		}
 
 		std::cout << '\n';
 	}
 
-	std::cout << "\n";
-	std::cout << "Balls:\n";
-
+	// Balls
+	std::cout << "\nBalls:\n";
 	auto& balls = message.balls;
 	for (int i = 0; i < 5; ++i)
 	{
 		for (int j = 0; j < 6; ++j)
-		{
 			std::cout << std::setw(3) << balls[j + i * 6];
-		}
 
 		std::cout << '\n';
 	}
 
-	std::cout << "\n";
-	std::cout << "Credits: " << message.credits << "\n";
-	std::cout << "\n";
+	// Extra balls
+	if (message.state == 3)
+	{
+		std::cout << "\nExtra Balls:\n";
 
+		auto& extras = message.extraBalls;
+		for (int i = 0; i < 3; ++i)
+			std::cout << std::setw(3) << extras[i];
 
+		std::cout << '\n';
+	}
+
+	// Credits
+	std::cout << "\nCredits: " << message.credits << "\n";
+
+	// Input
 	switch (message.state)
 	{
 	case 0:
-		std::cout << "Play (1)    " << "Exit (5)\n";
+		std::cout << prompt1 << prompt6 << "\n";
 		break;
 	case 1:
-		std::cout << "New card (2)    " << "Reveal ball (3)    " << "Reveal all balls (4)    " << "Exit (5)\n";
+		std::cout << prompt2 << prompt3 << prompt4 << prompt6 << "\n";
 		break;
 	case 2:
-		std::cout << "Reveal ball (3)    " << "Reveal all balls (4)    " << "Exit (5)\n";
+		std::cout << prompt3 << prompt4 << prompt6 << "\n";
+		break;
+	case 3:
+		std::cout << prompt1 << prompt5 << prompt6 << "\n";
 		break;
 	default:
 		std::cout << "Error state!\n";
@@ -181,6 +200,9 @@ int main() {
 				Render(RevealBalls());
 				break;
 			case 5:
+				Render(Cancel());
+				break;
+			case 6:
 				isRunning = false;
 				break;
 			default:
