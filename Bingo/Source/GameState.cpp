@@ -2,7 +2,7 @@
 #include "GameState.h"
 
 GameState::GameState() : patterns({ 0b0001000111011111, 0b0111110010011111 }), patternsPrizes({ 10, 50 }),
-bingoPrize(100), credits(1), maxCredits(999)
+bingoPrize(100), credits(10), maxCredits(999), playCost(1), currentState(State::S_Down)
 {
 	randomEngine.seed(randomGenerator());
 
@@ -18,6 +18,15 @@ GameState& GameState::Get()
 {
 	static GameState instance;
 	return instance;
+}
+
+void GameState::Play()
+{
+	if (currentState == State::S_Down && credits >= playCost)
+	{
+		currentState = State::S_Shuffle;
+		AddCredits(-playCost);
+	}
 }
 
 void GameState::RandomizePool()
@@ -38,4 +47,14 @@ void GameState::AddPrizeCredits(const int& value)
 void GameState::BingoAchieved()
 {
 	AddCredits(bingoPrize);
+}
+
+void GameState::DrawState()
+{
+	currentState = State::S_Draw;
+}
+
+void GameState::EndPlay()
+{
+	currentState = State::S_Down;
 }

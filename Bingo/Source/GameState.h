@@ -2,6 +2,7 @@
 
 #include <array>
 #include <random>
+#include "StateEnum.h"
 
 class GameState
 {
@@ -18,9 +19,12 @@ private:
 
 	int credits;
 	int maxCredits;
+	int playCost;
 
 	std::random_device randomGenerator;
 	std::mt19937 randomEngine;
+
+	State currentState;
 
 
 	GameState();
@@ -30,15 +34,23 @@ public:
 
 	void RandomizePool();
 
+	void Play();
+
 	void AddCredits(const int& value);
 
 	void AddPrizeCredits(const int& patternIndex);
 
 	void BingoAchieved();
 
+	void DrawState();
+
+	void EndPlay();
+
 	inline std::array<int, universe> GetPool() { return pool; };
-	inline static int GetPatternsNumber() { return patternsNumber; };
+	inline int GetPatternsNumber() { return patternsNumber; };
 	inline std::array<short, patternsNumber> GetPatterns() { return patterns; };
+	inline int GetCredits() { return credits; };
+	inline State GetState() { return currentState; };
 
 	// Singletons do not take copy constructor nor assignment operator.
 	GameState(const GameState&) = delete;

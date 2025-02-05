@@ -1,5 +1,4 @@
 #include <algorithm>
-#include <iostream>
 #include "Card.h"
 #include "GameState.h"
 
@@ -17,6 +16,14 @@ void Card::PopulateCells()
 	{
 		cells[i] = poolCopy[i];
 	}
+}
+
+void Card::Reset()
+{
+	PopulateCells();
+	hitState = 0b0000000000000000;
+	patternsCompleted = 0;
+	hitCounter = 0;
 }
 
 void Card::CheckHit(const int& ball)
@@ -55,16 +62,6 @@ void Card::CheckHit(const int& ball)
 		if (hitCounter == size)
 		{
 			GameState::Get().BingoAchieved();
-			std::cout << "Bingo" << std::endl;
 		}
 	}
 }
-
-//template<int N>
-//void Card::CheckHits(const std::array<int, N>& balls)
-//{
-//	for (const int& ball : balls)
-//	{
-//		CheckHit(ball);
-//	}
-//}

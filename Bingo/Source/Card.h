@@ -31,15 +31,14 @@ private:
 		std::cout << '\n';
 	}*/
 
+	void PopulateCells();
+
 public:
 	Card();
 
-	void PopulateCells();
+	void Reset();
 
 	void CheckHit(const int& ball);
 
-	template<int N>
-	void CheckHits(const std::array<int, N>& balls) { for (const int& ball : balls) CheckHit(ball); }
-
-	inline std::array<int, 15> GetCells() { return cells; };
+	inline std::array<int, size> GetCells() { return cells; };
 };

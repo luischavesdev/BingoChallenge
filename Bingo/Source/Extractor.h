@@ -7,11 +7,21 @@ class Extractor
 private:
 	static const int drawAmmount = 30;
 	std::array<int, drawAmmount> balls;
+	std::array<int, drawAmmount> visibleBalls;
+	int visibleCounter;
 
 public:
 	Extractor();
 
-	void Draw();
+	void Reset();
 
-	inline std::array<int, drawAmmount> GetBalls() { return balls; };
+	int RevealNextBall();
+
+	void RevealAllBalls();
+
+	inline std::array<int, drawAmmount> GetVisibleBalls() { return visibleBalls; };
+
+	inline int GetDrawAmmount() { return drawAmmount; };
+
+	inline bool IsClear() { return visibleCounter == drawAmmount - 1; };
 };
