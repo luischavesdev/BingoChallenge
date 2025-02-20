@@ -2,11 +2,11 @@
 #include "Card.h"
 #include "GameState.h"
 
-Card::Card() : hitState(0b0000000000000000), patternsCompleted(0), hitCounter(0)
+Card::Card() : hitState(0), patternsCompleted(0), hitCounter(0)
 {
-	// PopulateCells needs to be explicitly called, otherwise cells will be at zero.
 	for (int i = 0; i < size; ++i)
 	{
+		// PopulateCells needs to be explicitly called, otherwise cells will be at zero.
 		cells[i] = 0;
 	}
 }
@@ -20,12 +20,14 @@ void Card::PopulateCells()
 	{
 		cells[i] = poolCopy[i];
 	}
+
+	std::sort(cells.begin(), cells.end());
 }
 
 void Card::Reset()
 {
 	PopulateCells();
-	hitState = 0b0000000000000000;
+	hitState.reset();
 	patternsCompleted = 0;
 	hitCounter = 0;
 }
@@ -46,8 +48,9 @@ void Card::CheckHit(const int& ball)
 		{
 			int index = std::distance(cells.begin(), hit);
 			// Creating a bit mask to highlight the index of the matched number.
-			short mask = 1;
-			mask <<= index;
+			_16bits mask;
+			mask.set(index);
+				
 			hitState = hitState | mask;
 
 			auto patternsRef = GameState::Get().GetPatterns();

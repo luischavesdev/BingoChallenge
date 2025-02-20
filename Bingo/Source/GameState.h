@@ -1,8 +1,7 @@
 #pragma once
 #include <array>
-#include <cstdint>
 #include <random>
-#include "StateEnum.h"
+#include "Utilities.h"
 
 class GameState
 {
@@ -14,9 +13,9 @@ private:
 
 	static const int patternsNumber = 2;
 	// Patterns are represented using 2 bytes. This allows for 16 bits, leaving 1 bit unnused when representing 
-	// a 15 cell pattern. The card pattern from left to right/top to bottom, corresponds to the bits sequentially, 
+	// a 15 cell pattern. The card pattern from top to bottom/left to right, corresponds to the bits sequentially, 
 	// from the least significant bit, to the most significant bit (unnused).
-	std::array<uint16_t, patternsNumber> patterns;
+	std::array<_16bits, patternsNumber> patterns;
 	std::array<int, patternsNumber> patternsPrizes;
 	int bingoPrize;
 
@@ -51,7 +50,7 @@ public:
 
 	inline std::array<int, universe> GetPool() { return pool; };
 	inline int GetPatternsNumber() { return patternsNumber; };
-	inline std::array<uint16_t, patternsNumber> GetPatterns() { return patterns; };
+	inline std::array<_16bits, patternsNumber> GetPatterns() { return patterns; };
 	inline int GetCredits() { return credits; };
 	inline State GetState() { return currentState; };
 

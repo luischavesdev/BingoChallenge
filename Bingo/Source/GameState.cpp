@@ -1,7 +1,7 @@
 #include <algorithm>
 #include "GameState.h"
 
-GameState::GameState() : patterns({ 0b0001000111011111, 0b0111110010011111 }), patternsPrizes({ 10, 50 }),
+GameState::GameState() : patterns({ 0b0001011111011001, 0b0101101111101101 }), patternsPrizes({ 10, 50 }),
 bingoPrize(100), credits(100), maxCredits(999), playCost(1), currentState(State::S_Down)
 {
 	randomEngine.seed(randomGenerator());

@@ -7,12 +7,12 @@
 
 typedef ProtocolMessage(*interfaceType)();
 
-char* prompt1 = "Spend credit (1)    ";
-char* prompt2 = "New card (2)    ";
-char* prompt3 = "Reveal ball (3)    ";
-char* prompt4 = "Reveal all balls (4)    ";
-char* prompt5 = "Cancel (5)    ";
-char* prompt6 = "Exit (6)    ";
+const char* prompt1 = "Spend credit (1)    ";
+const char* prompt2 = "New card (2)    ";
+const char* prompt3 = "Reveal ball (3)    ";
+const char* prompt4 = "Reveal all balls (4)    ";
+const char* prompt5 = "Cancel (5)    ";
+const char* prompt6 = "Exit (6)    ";
 
 void Render(const ProtocolMessage& message)
 {
@@ -30,7 +30,7 @@ void Render(const ProtocolMessage& message)
 	for (int i = 0; i < 3; ++i)
 	{
 		for (int j = 0; j < 5; ++j)
-			std::cout << std::setw(3) << cells[j + i * 5];
+			std::cout << std::setw(3) << cells[i + j * 3];
 
 		std::cout << '\n';
 	}

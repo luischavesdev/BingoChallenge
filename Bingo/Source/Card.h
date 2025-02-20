@@ -1,6 +1,6 @@
 #pragma once
 #include <array>
-#include <cstdint>
+#include "Utilities.h"
 
 class Card
 {
@@ -10,7 +10,7 @@ private:
 	static const int size = rows * columns;
 
 	std::array<int, size> cells;
-	uint16_t hitState;
+	_16bits hitState;
 
 	int patternsCompleted;
 	int hitCounter;
