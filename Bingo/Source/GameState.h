@@ -15,7 +15,7 @@ private:
 	// Patterns are represented using 2 bytes. This allows for 16 bits, leaving 1 bit unnused when representing 
 	// a 15 cell pattern. The card pattern from top to bottom/left to right, corresponds to the bits sequentially, 
 	// from the least significant bit, to the most significant bit (unnused).
-	std::array<_16bits, patternsNumber> patterns;
+	std::array<patternbits, patternsNumber> patterns;
 	std::array<int, patternsNumber> patternsPrizes;
 	int bingoPrize;
 
@@ -38,7 +38,7 @@ public:
 
 	bool Play();
 
-	void AddCredits(const int& value);
+	void ChangeCredits(const int& value);
 
 	void AddPrizeCredits(const int& patternIndex);
 
@@ -48,11 +48,11 @@ public:
 
 	void EndPlay(bool extra = false);
 
-	inline std::array<int, universe> GetPool() { return pool; };
+	inline std::array<int, universe>& GetPool() { return pool; };
 	inline int GetPatternsNumber() { return patternsNumber; };
-	inline std::array<_16bits, patternsNumber> GetPatterns() { return patterns; };
-	inline int GetCredits() { return credits; };
-	inline State GetState() { return currentState; };
+	inline std::array<patternbits, patternsNumber>& GetPatterns() { return patterns; };
+	inline int& GetCredits() { return credits; };
+	inline State& GetState() { return currentState; };
 
 	// Singletons do not take copy constructor nor assignment operator.
 	GameState(const GameState&) = delete;

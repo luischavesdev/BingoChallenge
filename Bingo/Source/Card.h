@@ -10,7 +10,7 @@ private:
 	static const int size = rows * columns;
 
 	std::array<int, size> cells;
-	_16bits hitState;
+	patternbits hitState;
 
 	int patternsCompleted;
 	int hitCounter;
@@ -24,5 +24,5 @@ public:
 
 	void CheckHit(const int& ball);
 
-	inline std::array<int, size> GetCells() { return cells; };
+	inline std::array<int, size>& GetCells() { return cells; };
 };

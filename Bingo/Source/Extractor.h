@@ -26,8 +26,8 @@ public:
 
 	int GetExtra();
 
-	inline std::array<int, drawAmmount> GetVisibleBalls() { return visibleBalls; };
-	inline std::array<int, extraAmmount> GetVisibleExtras() { return visibleExtras; };
+	inline std::array<int, drawAmmount>& GetVisibleBalls() { return visibleBalls; };
+	inline std::array<int, extraAmmount>& GetVisibleExtras() { return visibleExtras; };
 	inline int GetDrawAmmount() { return drawAmmount; };
 	inline bool IsClear() { return visibleCounter >= drawAmmount; };
 	inline bool IsExtraless() { return extraCounter >= extraAmmount; };

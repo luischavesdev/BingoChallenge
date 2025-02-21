@@ -25,7 +25,7 @@ bool GameState::Play()
 	if (currentState == State::S_Down && credits >= playCost)
 	{
 		currentState = State::S_Shuffle;
-		AddCredits(-playCost);
+		ChangeCredits(-playCost);
 		return true;
 	}
 	return false;
@@ -36,19 +36,19 @@ void GameState::RandomizePool()
 	std::shuffle(pool.begin(), pool.end(), randomEngine);
 }
 
-void GameState::AddCredits(const int& value)
+void GameState::ChangeCredits(const int& value)
 {
 	credits = std::max(0, std::min(credits + value, maxCredits));
 }
 
 void GameState::AddPrizeCredits(const int& value)
 {
-	AddCredits(patternsPrizes[value]);
+	ChangeCredits(patternsPrizes[value]);
 }
 
 void GameState::BingoAchieved()
 {
-	AddCredits(bingoPrize);
+	ChangeCredits(bingoPrize);
 }
 
 void GameState::DrawState()

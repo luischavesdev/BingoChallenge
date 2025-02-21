@@ -8,4 +8,4 @@ enum State
 };
 
 // Used to represent the pattern prizes.
-typedef std::bitset<16> _16bits;
+typedef std::bitset<16> patternbits;

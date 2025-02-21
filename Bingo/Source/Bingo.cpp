@@ -3,8 +3,9 @@
 #include "Card.h"
 #include "Extractor.h"
 
-Card crd;
-Extractor extrct;
+// Static to keep them private to this translation unit.
+static Card crd;
+static Extractor extrct;
 
 void ResetObjects()
 {
@@ -72,7 +73,7 @@ ProtocolMessage RevealBalls()
 		GameState::Get().DrawState();
 	case State::S_Draw:
 		extrct.RevealAllBalls();
-		auto balls = extrct.GetVisibleBalls();
+		auto& balls = extrct.GetVisibleBalls();
 		for (const int& ball : balls)
 			crd.CheckHit(ball);
 		GameState::Get().EndPlay(true);

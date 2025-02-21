@@ -14,11 +14,11 @@ Card::Card() : hitState(0), patternsCompleted(0), hitCounter(0)
 void Card::PopulateCells()
 {
 	GameState::Get().RandomizePool();
-	auto poolCopy = GameState::Get().GetPool();
+	auto& poolRef = GameState::Get().GetPool();
 
 	for (int i = 0; i < size; ++i)
 	{
-		cells[i] = poolCopy[i];
+		cells[i] = poolRef[i];
 	}
 
 	std::sort(cells.begin(), cells.end());
@@ -48,12 +48,12 @@ void Card::CheckHit(const int& ball)
 		{
 			int index = std::distance(cells.begin(), hit);
 			// Creating a bit mask to highlight the index of the matched number.
-			_16bits mask;
+			patternbits mask;
 			mask.set(index);
 				
 			hitState = hitState | mask;
 
-			auto patternsRef = GameState::Get().GetPatterns();
+			auto& patternsRef = GameState::Get().GetPatterns();
 
 			for (int i = 0; i < numberOfPatterns; ++i)
 			{
