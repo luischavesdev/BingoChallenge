@@ -13,17 +13,24 @@ struct ProtocolMessage
 	int state;
 };
 
+#ifdef LINUX
 // Extern C is used to query the functions dynamically through name, since it prevents C++ name mangling.
 // Reports back the overall state of the game so that it can be rendered. (Output)
 extern "C" ProtocolMessage ExportInfo();
 
 // These others encompass all the input that the player needs to communicate with the game. (Input)
 extern "C" ProtocolMessage SpendCredits();
-
 extern "C" ProtocolMessage ReshuffleCard();
-
 extern "C" ProtocolMessage RevealBall();
-
 extern "C" ProtocolMessage RevealBalls();
-
 extern "C" ProtocolMessage Cancel();
+#endif
+
+#ifdef WINDOWS
+extern "C" __declspec(dllexport) ProtocolMessage ExportInfo();
+extern "C" __declspec(dllexport) ProtocolMessage SpendCredits();
+extern "C" __declspec(dllexport) ProtocolMessage ReshuffleCard();
+extern "C" __declspec(dllexport) ProtocolMessage RevealBall();
+extern "C" __declspec(dllexport) ProtocolMessage RevealBalls();
+extern "C" __declspec(dllexport) ProtocolMessage Cancel();
+#endif

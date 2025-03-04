@@ -1,11 +1,21 @@
 #include <iostream>
 #include <iomanip>
 #include <array>
+
+#ifdef LINUX
 #include <dlfcn.h>
+#endif
+
+#ifdef WINDOWS
+#include <windows.h>
+#endif
+
 #include "Bingo.h"
 
 
 typedef ProtocolMessage(*interfaceType)();
+
+bool failedInit = false;
 
 const char* prompt1 = "Spend credit (1)    ";
 const char* prompt2 = "New card (2)    ";
@@ -87,34 +97,81 @@ void Render(const ProtocolMessage& message)
 
 void* GetFuncPointer(void* lib, const char* funcName)
 {
-	void* ptr = dlsym(lib, funcName);
+	void* ptr;
+
+#ifdef LINUX
+	ptr = dlsym(lib, funcName);
 	auto error = dlerror();
 	if (error)
-		std::cerr << "Error (when loading the function) " << error << std::endl;
-
+	{
+		std::cerr << "Error (when loading the function) " << error << "\n" << std::endl;
+		failedInit = true;
+	}
+		
 	dlerror();
+#endif
+
+#ifdef WINDOWS
+	ptr = (interfaceType)GetProcAddress(HINSTANCE(lib), LPCSTR(funcName));
+	if (!ptr)
+	{
+		std::cerr << "Error (when loading the function) " << GetLastError() << "\n" << std::endl;
+		failedInit = true;
+	}
+		
+#endif
+
 	return ptr;
 }
 
 int main() {
-	void* bingoEngine = dlopen("./libBingo.so", RTLD_LAZY);
+	void* bingoEngine;
+
+#ifdef LINUX
+	bingoEngine = dlopen("./libBingo.so", RTLD_LAZY);
+	if (!bingoEngine) 
+	{
+		std::cerr << "Failed to load the lib.\n" << std::endl;
+		failedInit = true;
+	}
+		
+	//interfaceType spendCredits = reinterpret_cast<interfaceType>(reinterpret_cast<long>(GetFuncPointer(bingoEngine, "SpendCredits")));
+	//interfaceType reshuffleCard = reinterpret_cast<interfaceType>(reinterpret_cast<long>(GetFuncPointer(bingoEngine, "ReshuffleCard")));
+	//interfaceType revealBall = reinterpret_cast<interfaceType>(reinterpret_cast<long>(GetFuncPointer(bingoEngine, "RevealBall")));
+	//interfaceType revealBalls = reinterpret_cast<interfaceType>(reinterpret_cast<long>(GetFuncPointer(bingoEngine, "RevealBalls")));
+	//interfaceType cancelExtras = reinterpret_cast<interfaceType>(reinterpret_cast<long>(GetFuncPointer(bingoEngine, "Cancel")));
+	//interfaceType exportInfo = reinterpret_cast<interfaceType>(reinterpret_cast<long>(GetFuncPointer(bingoEngine, "ExportInfo")));
+#endif
+
+#ifdef WINDOWS
+	bingoEngine = LoadLibrary(L"./Bingo.dll");
 	if (!bingoEngine)
-		std::cerr << "Failed to load the lib. " << std::endl;
+	{
+		std::cerr << "Failed to load the lib.\n" << GetLastError() << std::endl;
+		failedInit = true;
+	}
+#endif
 
-	interfaceType spendCredits = reinterpret_cast<interfaceType>(reinterpret_cast<long>(GetFuncPointer(bingoEngine, "SpendCredits")));
-	interfaceType reshuffleCard = reinterpret_cast<interfaceType>(reinterpret_cast<long>(GetFuncPointer(bingoEngine, "ReshuffleCard")));
-	interfaceType revealBall = reinterpret_cast<interfaceType>(reinterpret_cast<long>(GetFuncPointer(bingoEngine, "RevealBall")));
-	interfaceType revealBalls = reinterpret_cast<interfaceType>(reinterpret_cast<long>(GetFuncPointer(bingoEngine, "RevealBalls")));
-	interfaceType cancelExtras = reinterpret_cast<interfaceType>(reinterpret_cast<long>(GetFuncPointer(bingoEngine, "Cancel")));
-	interfaceType exportInfo = reinterpret_cast<interfaceType>(reinterpret_cast<long>(GetFuncPointer(bingoEngine, "ExportInfo")));
+	interfaceType spendCredits = (interfaceType)GetFuncPointer(bingoEngine, "SpendCredits");
+	interfaceType reshuffleCard = (interfaceType)GetFuncPointer(bingoEngine, "ReshuffleCard");
+	interfaceType revealBall = (interfaceType)GetFuncPointer(bingoEngine, "RevealBall");
+	interfaceType revealBalls = (interfaceType)GetFuncPointer(bingoEngine, "RevealBalls");
+	interfaceType cancelExtras = (interfaceType)GetFuncPointer(bingoEngine, "Cancel");
+	interfaceType exportInfo = (interfaceType)GetFuncPointer(bingoEngine, "ExportInfo");
 
-	
+
 	char input = '\0';
 	int option = 0;
 	bool isRunning = true;
 
 	std::cout << "Welcome to console bingo, would you like to play? (y/n)\n";
 	std::cin >> input;
+
+	if (failedInit)
+	{
+		std::cout << "Sorry, couldn't start due to failure on starting the bingo engine.\n";
+		input = '\0';
+	}
 
 	if (input == 'y')
 	{
@@ -123,6 +180,9 @@ int main() {
 		do
 		{
 			std::cin >> option;
+
+			// Kinda resets console display on some systems hopefully.
+			std::cout << "\033[2J""\033[1;1H";
 
 			switch (option)
 			{
@@ -153,6 +213,12 @@ int main() {
 
 	std::cout << "See ya!\n";
 
+#ifdef LINUX
 	dlclose(bingoEngine);
+#endif
+#ifdef WINDOWS
+	FreeLibrary(HINSTANCE(bingoEngine));
+#endif
+
 	return 0;
 }

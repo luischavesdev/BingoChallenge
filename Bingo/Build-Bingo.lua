@@ -1,31 +1,34 @@
 project "Bingo"
-   kind "SharedLib"
-   language "C++"
-   cppdialect "C++17"
-   targetdir "Binaries/%{cfg.buildcfg}"
-   staticruntime "off"
+    kind "SharedLib"
+    language "C++"
+    cppdialect "C++17"
+    targetdir "Binaries/%{cfg.buildcfg}"
+    staticruntime "off"
 
-   files { "Source/**.h", "Source/**.cpp" }
+    files { "Source/**.h", "Source/**.cpp" }
 
-   includedirs
-   {
-      "Source"
-   }
+    includedirs
+    {
+       "Source"
+    }
 
-   targetdir ("../Binaries/" .. OutputDir .. "/%{prj.name}")
-   objdir ("../Binaries/Intermediates/" .. OutputDir .. "/%{prj.name}")
+    targetdir ("../Binaries/" .. OutputDir .. "/%{prj.name}")
+    objdir ("../Binaries/Intermediates/" .. OutputDir .. "/%{prj.name}")
 
-   filter "system:windows"
-       systemversion "latest"
-       defines { }
+    filter "system:windows"
+        systemversion "latest"
+        defines { "WINDOWS" }
 
-   filter "configurations:Debug"
-       defines { "DEBUG" }
-       runtime "Debug"
-       symbols "On"
+    filter "system:linux"
+        defines { "LINUX" }
 
-   filter "configurations:Release"
-       defines { "RELEASE" }
-       runtime "Release"
-       optimize "On"
-       symbols "Off"
+    filter "configurations:Debug"
+        defines { "DEBUG" }
+        runtime "Debug"
+        symbols "On"
+
+    filter "configurations:Release"
+        defines { "RELEASE" }
+        runtime "Release"
+        optimize "On"
+        symbols "Off"

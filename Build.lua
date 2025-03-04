@@ -12,7 +12,7 @@ workspace "BingoChallenge"
 OutputDir = "%{cfg.system}-%{cfg.architecture}/%{cfg.buildcfg}"
 
 group "Bingo"
-	include "Bingo/Build-Bingo.lua"
+   include "Bingo/Build-Bingo.lua"
 group ""
 
 include "App/Build-App.lua"
