@@ -134,13 +134,6 @@ int main() {
 		std::cerr << "Failed to load the lib.\n" << std::endl;
 		failedInit = true;
 	}
-		
-	//interfaceType spendCredits = reinterpret_cast<interfaceType>(reinterpret_cast<long>(GetFuncPointer(bingoEngine, "SpendCredits")));
-	//interfaceType reshuffleCard = reinterpret_cast<interfaceType>(reinterpret_cast<long>(GetFuncPointer(bingoEngine, "ReshuffleCard")));
-	//interfaceType revealBall = reinterpret_cast<interfaceType>(reinterpret_cast<long>(GetFuncPointer(bingoEngine, "RevealBall")));
-	//interfaceType revealBalls = reinterpret_cast<interfaceType>(reinterpret_cast<long>(GetFuncPointer(bingoEngine, "RevealBalls")));
-	//interfaceType cancelExtras = reinterpret_cast<interfaceType>(reinterpret_cast<long>(GetFuncPointer(bingoEngine, "Cancel")));
-	//interfaceType exportInfo = reinterpret_cast<interfaceType>(reinterpret_cast<long>(GetFuncPointer(bingoEngine, "ExportInfo")));
 #endif
 
 #ifdef WINDOWS

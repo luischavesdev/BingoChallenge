@@ -1,14 +1,11 @@
 # Bingo Challenge
 <p align="justify">
-  Bingo implementation done for the GameMath coding challenge. Consists on a simple console application that generates a bingo card, and grants the player access to basic inputs like revealing balls, and 
-  choosing whether or not to buy extra balls. 
+Bingo implementation done for a Game Math coding challenge. Consists on a simple console application that generates a bingo card, and grants the player access to basic inputs like revealing balls, and choosing whether or not to buy extra balls. While clean and concise, additional logic could have been added, like dynamically calculating the cost of extra balls, and showing the player if they are close to completing a pattern.
 </p>
 
 ## Build/Run Instructions
 <p align="justify">
-  Being a C++ project, you can either choose to build it yourself, or just run the precompiled Linux binary <code>App</code> (compiled with clang in Ubuntu 24), under the respective folder. If you want to build the project, run the appropriate script under 
-  <code>BuildScripts</code>, and then open the VS solution if you're in Windows, or run the Makefile in Linux. Just bear in mind that since the project uses <code>dlopen()</code> to interface with the dynamic 
-  library, building the solution is as far as you'll go under Windows. I guess supporting Windows is something to consider under future work.
+Being a C++ project, you have to build it according to your system, with Windows and Linux supported out of the box. If you want to build the project, run the appropriate script under <code>BuildScripts</code>, and then open the VS solution if you're in Windows, or run the Makefile in Linux. In Linux you'll first probably need to mess with the permissions of the .sh script to run it, doing something like <code>chmod +x ./Setup-Linux.sh</code>, and also the permissions on the project root folder, with something like <code>chmod 777 -R "folderName"</code>. Be sure to also check if the Makefile is set to Debug or Release according to your needs.
 </p>
 
 ## Screenshots
